@@ -8,9 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Magi::Git::VERSION
   spec.authors       = ["Ryo Nakamura"]
   spec.email         = ["r7kamura@gmail.com"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.summary       = "Magi git integration plugin"
+  spec.homepage      = "https://github.com/r7kamura/magi-git"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)

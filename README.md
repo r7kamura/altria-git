@@ -1,29 +1,12 @@
 # Magi::Git
-
-TODO: Write a gem description
+Magi git integration plugin.
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'magi-git'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install magi-git
+```
+gem "magi-git"
+```
 
 ## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1. Configure a repository url at your job's settings page
+2. Magi will clone the repository before enqueue/execute
+3. Magi will enqueue a new build only if the repository is updated
