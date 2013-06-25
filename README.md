@@ -4,7 +4,7 @@ Magi git integration plugin.
 ## Installation
 ```
 # Gemfile.local
-gem "magi-git", git: "git@github.com:r7kamura/magi-git"
+gem "magi-git", git: "git@github.com:r7kamura/magi-git.git"
 ```
 
 ## Usage
