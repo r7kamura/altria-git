@@ -28,17 +28,6 @@ describe Job do
     end
   end
 
-  describe "#enqueue" do
-    before do
-      job.stub(enqueue_without_before_enqueues: true)
-    end
-
-    it "executes Magi::Git::Repository#before_enqueue" do
-      repository.should_receive(:before_enqueue)
-      job.enqueue
-    end
-  end
-
   describe "#execute" do
     before do
       job.stub(execute_without_before_executes: true)
