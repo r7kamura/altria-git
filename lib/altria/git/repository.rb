@@ -1,6 +1,6 @@
 require "open3"
 
-module Magi
+module Altria
   module Git
     class Repository
       attr_reader :job

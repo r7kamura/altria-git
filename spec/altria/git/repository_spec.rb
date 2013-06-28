@@ -1,6 +1,6 @@
 require File.expand_path("../../../spec_helper", __FILE__)
 
-describe Magi::Git::Repository do
+describe Altria::Git::Repository do
   let(:repository) do
     described_class.new(job)
   end

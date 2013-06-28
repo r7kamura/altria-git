@@ -1,10 +1,10 @@
 require "rails/railtie"
 
-module Magi
+module Altria
   module Git
     class Railtie < Rails::Railtie
       config.after_initialize do
-        require "magi/git/initializer"
+        require "altria/git/initializer"
       end
     end
   end

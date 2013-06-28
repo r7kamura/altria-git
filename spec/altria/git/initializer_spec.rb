@@ -1,5 +1,5 @@
 require File.expand_path("../../../spec_helper", __FILE__)
-require "magi/git/initializer"
+require "altria/git/initializer"
 
 describe Build do
   let(:build) do
@@ -19,7 +19,7 @@ describe Job do
   end
 
   let(:repository) do
-    Magi::Git::Repository.any_instance
+    Altria::Git::Repository.any_instance
   end
 
   describe "#repository_url" do
@@ -33,7 +33,7 @@ describe Job do
       job.stub(execute_without_before_executes: true)
     end
 
-    it "executes Magi::Git::Repository#\{before,after}_execute" do
+    it "executes Altria::Git::Repository#\{before,after}_execute" do
       repository.should_receive(:before_execute)
       repository.should_receive(:after_execute)
       job.execute
