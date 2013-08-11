@@ -30,7 +30,7 @@ module Altria
       end
 
       def checkout
-        return unless has_repository_url? 
+        return unless has_repository_url?
         command("cd #{path} && git checkout -b #{job.branch_name} origin/#{job.branch_name}") unless checkouted?
       end
 
