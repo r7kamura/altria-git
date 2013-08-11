@@ -30,8 +30,9 @@ module Altria
       end
 
       def checkout
-        return unless has_repository_url?
-        command("cd #{path} && git checkout -b #{job.branch_name} origin/#{job.branch_name}") unless checkouted?
+        if has_repository_url? && !checkouted? && has_remote_branch?
+          command("cd #{path} && git checkout -b #{job.branch_name} origin/#{job.branch_name}")
+        end
       end
 
       def update
@@ -56,7 +57,7 @@ module Altria
       end
 
       def checkouted?
-        command("cd #{path} && git rev-parse --abbrev-ref HEAD") == job.branch_name
+        command("cd #{path} && git rev-parse --abbrev-ref HEAD").rstrip == job.branch_name
       end
 
       def command(script)
@@ -73,6 +74,10 @@ module Altria
 
       def has_branch_name?
         job.branch_name.present?
+      end
+
+      def has_remote_branch?
+        !!command("cd #{path} && git branch -r").match(/^\s+origin\/#{Regexp.escape(job.branch_name)}$/)
       end
 
       def update_revision
