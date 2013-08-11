@@ -162,6 +162,7 @@ describe Altria::Git::Repository do
       let(:path) { '/home/r7kamura/altria/tmp/workspace/jobs/1/repository' }
 
       before do
+        repository.stub(:has_remote_branch?).and_return(true)
         repository.stub(:checkouted?).and_return(false)
         repository.stub(:path).and_return(path)
       end
