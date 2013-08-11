@@ -56,7 +56,7 @@ module Altria
       end
 
       def checkouted?
-        !!command("ch #{path} && git branch").match(/\*\s+#{job.branch_name}/)
+        command("cd #{path} && git rev-parse --abbrev-ref HEAD") == job.branch_name
       end
 
       def command(script)
