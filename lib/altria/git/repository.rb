@@ -30,7 +30,8 @@ module Altria
       end
 
       def checkout
-        command("git checkout -b #{job.branch_name} origin/#{job.branch_name}") unless checkouted?
+        return unless has_repository_url? 
+        command("cd #{path} && git checkout -b #{job.branch_name} origin/#{job.branch_name}") unless checkouted?
       end
 
       def update
@@ -55,7 +56,7 @@ module Altria
       end
 
       def checkouted?
-        !!command("git branch").match(/\*\s#{job.branch_name}/)
+        !!command("ch #{path} && git branch").match(/\*\s+#{job.branch_name}/)
       end
 
       def command(script)

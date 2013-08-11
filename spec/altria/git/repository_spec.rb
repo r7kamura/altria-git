@@ -159,12 +159,15 @@ describe Altria::Git::Repository do
     end
 
     context "when not checkouted" do
+      let(:path) { '/home/r7kamura/altria/tmp/workspace/jobs/1/repository' }
+
       before do
         repository.stub(:checkouted?).and_return(false)
+        repository.stub(:path).and_return(path)
       end
 
       it "checkouts repository" do
-        repository.should_receive(:command).with("git checkout -b #{job.branch_name} origin/#{job.branch_name}")
+        repository.should_receive(:command).with("cd #{path} && git checkout -b #{job.branch_name} origin/#{job.branch_name}")
         repository.checkout
       end
     end
