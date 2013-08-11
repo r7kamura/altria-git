@@ -6,11 +6,11 @@ describe Altria::Git::Repository do
   end
 
   let(:job) do
-    FactoryGirl.create(:job, properties: { "repository_url" => "repository_url" })
+    FactoryGirl.create(:job, properties: { "repository_url" => "repository_url", "branch_name" => "branch_name" })
   end
 
   let(:build) do
-    FactoryGirl.create(:build, job: job)
+    FactoryGirl.create(:build, job: job, finished_at: nil)
   end
 
   describe "#before_enqueue" do
@@ -77,6 +77,24 @@ describe Altria::Git::Repository do
         repository.should_receive(:clone)
         repository.before_execute
       end
+
+      context "with branch name" do
+        it "calls .checkout" do
+          repository.should_receive(:checkout)
+          repository.before_execute
+        end
+      end
+
+      context "without branch name" do
+        before do
+          job.branch_name = nil
+        end
+
+        it "does nothing" do
+          repository.should_not_receive(:checkout)
+          repository.before_execute
+        end
+      end
     end
   end
 
@@ -122,6 +140,36 @@ describe Altria::Git::Repository do
       it "clones repository" do
         repository.should_receive(:command).with("git clone #{job.repository_url} #{repository.path}")
         repository.clone
+      end
+    end
+  end
+
+  describe "#checkout" do
+    context "when already checkouted" do
+      before do
+        path = repository.path.tap(&:mkpath).join(".git")
+        FileUtils.touch(path)
+        repository.stub(:checkouted?).and_return(true)
+      end
+
+      it "does nothing" do
+        repository.should_not_receive(:command)
+        repository.checkout
+      end
+    end
+
+    context "when not checkouted" do
+      let(:path) { '/home/r7kamura/altria/tmp/workspace/jobs/1/repository' }
+
+      before do
+        repository.stub(:has_remote_branch?).and_return(true)
+        repository.stub(:checkouted?).and_return(false)
+        repository.stub(:path).and_return(path)
+      end
+
+      it "checkouts repository" do
+        repository.should_receive(:command).with("cd #{path} && git checkout -b #{job.branch_name} origin/#{job.branch_name}")
+        repository.checkout
       end
     end
   end
