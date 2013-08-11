@@ -10,7 +10,7 @@ describe Altria::Git::Repository do
   end
 
   let(:build) do
-    FactoryGirl.create(:build, job: job)
+    FactoryGirl.create(:build, job: job, finished_at: nil)
   end
 
   describe "#before_enqueue" do
