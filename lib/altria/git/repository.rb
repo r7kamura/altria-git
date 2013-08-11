@@ -62,7 +62,7 @@ module Altria
       end
 
       def update_revision
-        job.current_build.update_properties(revision: revision)
+        job.current_build.try(:update_properties, revision: revision)
       end
     end
   end
