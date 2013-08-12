@@ -18,6 +18,7 @@ module Altria
 
       def before_execute
         clone if has_repository_url?
+        checkout if has_branch_name?
       end
 
       def after_execute
@@ -26,6 +27,12 @@ module Altria
 
       def clone
         command("git clone #{job.repository_url} #{path}") unless cloned?
+      end
+
+      def checkout
+        if has_repository_url? && !checkouted? && has_remote_branch?
+          command("cd #{path} && git checkout -b #{job.branch_name} origin/#{job.branch_name}")
+        end
       end
 
       def update
@@ -49,6 +56,10 @@ module Altria
         path.join(".git").exist?
       end
 
+      def checkouted?
+        command("cd #{path} && git rev-parse --abbrev-ref HEAD").rstrip == job.branch_name
+      end
+
       def command(script)
         Open3.capture3(script)[0]
       end
@@ -59,6 +70,14 @@ module Altria
 
       def has_repository_url?
         job.repository_url.present?
+      end
+
+      def has_branch_name?
+        job.branch_name.present?
+      end
+
+      def has_remote_branch?
+        !!command("cd #{path} && git branch -r").match(/^\s+origin\/#{Regexp.escape(job.branch_name)}$/)
       end
 
       def update_revision
